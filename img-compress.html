@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compress your images online with our free image compression tool. Reduce file size while maintaining quality for JPG, PNG, and GIF images.">
+  <meta name="keywords" content="image compression, compress images, reduce image size, optimize images, JPG, PNG, GIF">
+  <meta name="author" content="Image Compressor">
+  <title>Image Compression Tool - Compress JPG, PNG, GIF Images Online</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #007BFF;
+      color: white;
+    }
+
+    main {
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .upload-section, .result-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .upload-label {
+      display: block;
+      padding: 10px;
+      background: #007BFF;
+      color: white;
+      text-align: center;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .compression-controls {
+      margin-bottom: 20px;
+    }
+
+    #compressBtn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #compressBtn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #e0e0e0;
+      border-radius: 5px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0;
+      background: #007BFF;
+      transition: width 0.3s ease;
+    }
+
+    .result-section {
+      text-align: center;
+    }
+
+    #compressedImageContainer img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+
+    .download-link {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #007BFF;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .ad-section, .footer-ad {
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #333;
+      color: white;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 24px;
+      }
+
+      .upload-label, #compressBtn, .download-link {
+        font-size: 14px;
+      }
+    }
+  </style>
+  <!-- Google AdSense Script -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  <!-- Browser Image Compression Library -->
+  <script src="https://cdn.jsdelivr.net/npm/browser-image-compression/dist/browser-image-compression.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Image Compression Tool</h1>
+    <p>Compress your images online for free!</p>
+  </header>
+
+  <main>
+    <section class="upload-section">
+      <input type="file" id="imageUpload" accept="image/jpeg, image/png, image/gif" />
+      <label for="imageUpload" class="upload-label">Choose an Image</label>
+      <div class="compression-controls">
+        <label for="compressionLevel">Compression Level:</label>
+        <input type="range" id="compressionLevel" min="0.1" max="1" step="0.1" value="0.5">
+        <span id="compressionValue">50%</span>
+      </div>
+      <button id="compressBtn">Compress Image</button>
+      <div id="progressBar" class="progress-bar">
+        <div id="progress" class="progress"></div>
+      </div>
+    </section>
+
+    <section class="result-section">
+      <h2>Compressed Image</h2>
+      <div id="compressedImageContainer"></div>
+      <a id="downloadLink" class="download-link" download="compressed-image.png">Download Compressed Image</a>
+    </section>
+
+    <!-- Google AdSense Ad Unit -->
+    <div class="ad-section">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Image Compression Tool. All rights reserved.</p>
+    <!-- Google AdSense Footer Ad -->
+    <div class="footer-ad">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="0987654321"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const imageUpload = document.getElementById('imageUpload');
+      const compressionLevel = document.getElementById('compressionLevel');
+      const compressionValue = document.getElementById('compressionValue');
+      const compressBtn = document.getElementById('compressBtn');
+      const progressBar = document.getElementById('progress');
+      const compressedImageContainer = document.getElementById('compressedImageContainer');
+      const downloadLink = document.getElementById('downloadLink');
+
+      // Update compression level value
+      compressionLevel.addEventListener('input', () => {
+        compressionValue.textContent = `${Math.round(compressionLevel.value * 100)}%`;
+      });
+
+      // Compress image
+      compressBtn.addEventListener('click', async () => {
+        const file = imageUpload.files[0];
+        if (!file) {
+          alert('Please select an image first!');
+          return;
+        }
+
+        compressBtn.disabled = true;
+        progressBar.style.width = '0%';
+
+        const options = {
+          maxSizeMB: compressionLevel.value, // Set max size in MB
+          maxWidthOrHeight: 1024, // Set max width/height
+          useWebWorker: true, // Use web worker for faster compression
+          onProgress: (progress) => {
+            progressBar.style.width = `${progress}%`;
+          },
+        };
+
+        try {
+          const compressedFile = await imageCompression(file, options);
+          const compressedImageUrl = URL.createObjectURL(compressedFile);
+
+          compressedImageContainer.innerHTML = `<img src="${compressedImageUrl}" alt="Compressed Image">`;
+          downloadLink.href = compressedImageUrl;
+          progressBar.style.width = '100%';
+        } catch (error) {
+          console.error('Error compressing image:', error);
+          alert('Failed to compress image. Please try again.');
+        } finally {
+          compressBtn.disabled = false;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
